@@ -19,3 +19,11 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  producer:
+    build: ./src/producer
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER_URL: kafka:9092
+      KAFKA_TOPIC: application-logs
+      MESSAGE_RATE: 2
