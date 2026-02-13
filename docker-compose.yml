@@ -46,3 +46,16 @@ services:
       OUTPUT_FILE_PATH: /data/processed_errors_warnings.jsonl
     volumes:
       - ./data:/data
+  topic-init:
+    image: confluentinc/cp-kafka:7.6.0
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: >
+      bash -c "
+      kafka-topics --create --if-not-exists
+      --topic application-logs
+      --bootstrap-server kafka:9092
+      --partitions 3
+      --replication-factor 1
+      "
